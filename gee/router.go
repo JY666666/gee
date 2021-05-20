@@ -6,11 +6,15 @@ import (
 )
 
 type router struct {
+	roots    map[string]*node
 	handlers map[string]HandlerFunc
 }
 
 func newRouter() *router {
-	return &router{handlers: make(map[string]HandlerFunc)}
+	return &router{
+		handlers: make(map[string]HandlerFunc),
+		roots:    make(map[string]*node),
+	}
 }
 
 func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
@@ -24,6 +28,6 @@ func (r *router) handle(c *Context) {
 	if handler, ok := r.handlers[key]; ok {
 		handler(c)
 	} else {
-		c.String(http.StatusNotFound, "404 NOT FOUND L%s \n", c.Path)
+		c.String(http.StatusNotFound, "404 NOT FOUND %s \n", c.Path)
 	}
 }

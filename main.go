@@ -1,23 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"gee"
 	"net/http"
 )
 
-
-func main(){
+func main() {
 	r := gee.New()
 
-	r.GET("/", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w,"URL.Path = %q",req.URL.Path)
+	r.GET("/", func(c *gee.Context) {
+		c.Html(http.StatusOK, "<h1>hello Gee<h1>")
 	})
 
-	r.GET("/hello", func(w http.ResponseWriter, req *http.Request) {
-		for k,v := range req.Header{
-			fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
-		}
+	r.GET("/hello", func(c *gee.Context) {
+		c.String(http.StatusOK, "hello %s,you're at %s \n", c.Query("name"), c.Path)
 	})
 
 	r.Run(":9999")

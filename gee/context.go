@@ -34,6 +34,7 @@ func (c *Context) PostForm(key string) string {
 	return c.Req.FormValue(key)
 }
 
+//返回get里面存放的信息
 func (c *Context) Query(key string) string {
 	return c.Req.URL.Query().Get(key)
 }

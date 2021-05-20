@@ -33,6 +33,7 @@ func (engine *Engine) Run(addr string) (err error) {
 }
 
 //其实是Engine实现了Handler接口，ServeHTTP是Handler的函数
+//把w和req封装进Context中
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	c := newContext(w, req)
 	engine.router.handle(c)
