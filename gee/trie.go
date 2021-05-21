@@ -32,6 +32,7 @@ func (n *node) matchChildren(part string) []*node {
 
 func (n *node) insert(pattern string, parts []string, height int) {
 	if len(parts) == height {
+		//只在最后一个节点赋值pattern
 		n.pattern = pattern
 		return
 	}

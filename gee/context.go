@@ -11,11 +11,14 @@ import (
 type H map[string]interface{}
 
 type Context struct {
+	//原始对象
 	Writer http.ResponseWriter
 	Req    *http.Request
 	//对path和method提供直接访问
 	Path   string
 	Method string
+	//链接里传的参数
+	Params map[string]string
 
 	StatusCode int
 }
@@ -27,6 +30,12 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 		Path:   req.URL.Path,
 		Method: req.Method,
 	}
+}
+
+//获得链接里面的参数
+func (c *Context) Param(key string) string {
+	value, _ := c.Params[key]
+	return value
 }
 
 //返回Post里存放的信息
