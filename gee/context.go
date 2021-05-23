@@ -21,6 +21,9 @@ type Context struct {
 	Params map[string]string
 
 	StatusCode int
+	// 中间件
+	handlers []HandlerFunc
+	index    int
 }
 
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
@@ -29,6 +32,18 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 		Req:    req,
 		Path:   req.URL.Path,
 		Method: req.Method,
+		index:  -1,
+	}
+}
+
+//之所以要加这个for循环是因为，不是每个中间件都会显示的调用next()方法
+//next()方法只在需要对执行之前和之后进行处理的时候使用
+//加上for循环就可以兼容不写next()的写法
+func (c *Context) Next() {
+	c.index++
+	s := len(c.handlers)
+	for ; c.index < s; c.index++ {
+		c.handlers[c.index](c)
 	}
 }
 
