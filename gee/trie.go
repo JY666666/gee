@@ -2,6 +2,9 @@ package gee
 
 import "strings"
 
+//前缀树是用来匹配pattern
+//来了一个请求，用前缀树可以匹配到一个pattern上
+//再通过这个pattern，用map找到对应的handler
 type node struct {
 	pattern  string  //待匹配路由，例如/p/:lang
 	part     string  //路由中的一部分，例如:lang
